@@ -2,8 +2,8 @@ from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Token, UserToken, Wallet
-from .serializers import ActivateTokenRequestSerializer, UserTokenSerializer
+from .models import Token, EntityToken, Wallet
+from .serializers import ActivateTokenRequestSerializer, EntityTokenSerializer
 
 
 class ActivateUserTokenView(APIView):
@@ -21,8 +21,8 @@ class ActivateUserTokenView(APIView):
 
     def get_user_token_object(self, token_ref, user_ref):
         try:
-            return UserToken.objects.get(token_ref=token_ref, owner_ref=user_ref)
-        except UserToken.DoesNotExist:
+            return EntityToken.objects.get(token_ref=token_ref, owner_ref=user_ref)
+        except EntityToken.DoesNotExist:
             return ""
 
     def post(self, request):
@@ -45,8 +45,8 @@ class ActivateUserTokenView(APIView):
                             "is_active": True,
                             "activated_date": timezone.now(),
                         }
-                        new_user_token = UserToken.objects.create(**data)
-                        response_serializer = UserTokenSerializer(new_user_token)
+                        new_user_token = EntityToken.objects.create(**data)
+                        response_serializer = EntityTokenSerializer(new_user_token)
                         return Response(response_serializer.data, status=status.HTTP_201_CREATED)
                     else:
                         return Response({"message": "We cannot activate the user token because it isn't the specified "
@@ -55,7 +55,7 @@ class ActivateUserTokenView(APIView):
                     user_token.is_active = True
                     user_token.activated_date = timezone.now()
                     user_token.save()
-                    response_serializer = UserTokenSerializer(user_token)
+                    response_serializer = EntityTokenSerializer(user_token)
                     return Response(response_serializer.data, status=status.HTTP_202_ACCEPTED)
                 else:
                     return Response({"message": "The User token is already created"},

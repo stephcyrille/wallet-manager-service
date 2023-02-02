@@ -24,4 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('apis/docs/', schema_view),
     path('apis/v1/wallet/', include('mywallet.urls')),
+    path('apis/v1/operations/', include('operations.urls')),
 ]

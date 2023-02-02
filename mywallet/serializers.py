@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from djmoney.contrib.django_rest_framework import MoneyField
-from .models import Wallet, UserToken
+from .models import Wallet, EntityToken
 
 
 class BaseWalletSerializer(serializers.ModelSerializer):
@@ -21,8 +21,8 @@ class WalletSerializer(serializers.ModelSerializer):
         exclude = ["id"]
 
     def get_tokens(self, instance):
-        user_tokens = UserToken.objects.filter(wallet_ref=instance.ref)
-        return WalletUserTokenSerializer(user_tokens, many=True).data
+        user_tokens = EntityToken.objects.filter(wallet_ref=instance.ref)
+        return WalletEntityTokenSerializer(user_tokens, many=True).data
 
 
 class ActivateTokenRequestSerializer(serializers.ModelSerializer):
@@ -32,23 +32,23 @@ class ActivateTokenRequestSerializer(serializers.ModelSerializer):
     token_ref = serializers.CharField(required=True, max_length=42, min_length=42)
 
     class Meta:
-        model = UserToken
+        model = EntityToken
         exclude = ["id"]
 
 
-class UserTokenSerializer(serializers.ModelSerializer):
+class EntityTokenSerializer(serializers.ModelSerializer):
     fiat_value = MoneyField(max_digits=14, decimal_places=2)
 
     class Meta:
-        model = UserToken
+        model = EntityToken
         exclude = ["id"]
 
 
-class WalletUserTokenSerializer(serializers.ModelSerializer):
+class WalletEntityTokenSerializer(serializers.ModelSerializer):
     fiat_value = MoneyField(max_digits=14, decimal_places=2)
 
     class Meta:
-        model = UserToken
+        model = EntityToken
         fields = ["token_symbol", "token_ref", "amount", "fiat_value", "fiat_value_currency",
                   "is_active", "activated_date"]
 

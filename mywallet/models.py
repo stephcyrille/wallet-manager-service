@@ -60,7 +60,7 @@ class Token(models.Model):
         return "%s-%s" % (self.symbol, self.name)
 
 
-class UserToken(models.Model):
+class EntityToken(models.Model):
     token_symbol = models.CharField(max_length=4)
     token_ref = models.CharField(max_length=42, blank=False)
     wallet_ref = models.CharField(max_length=23, blank=False)
