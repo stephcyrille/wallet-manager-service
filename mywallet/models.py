@@ -4,8 +4,9 @@ from django.utils import timezone
 from djmoney.models.fields import MoneyField
 
 
+# TODO Add a boolean for giving the ability of credit or debit
 class Wallet(models.Model):
-    ref = models.CharField(max_length=23, blank=True)
+    ref = models.CharField(max_length=23, blank=True, unique=True)
     code_client = models.CharField(max_length=4, blank=True)  # User start with 11 / System with 99
     owner_ref = models.CharField(max_length=36, blank=False, unique=True)
     is_active = models.BooleanField(default=False)
@@ -16,8 +17,9 @@ class Wallet(models.Model):
     def save(self, *args, **kwargs):
         """ On save """
         if not self.id:
-            self.ref = "W%sY%sE%s" % (str(uuid.uuid4()).split('-')[0], str(uuid.uuid4()).split('-')[1],
-                                      str(uuid.uuid4()).split('-')[2])
+            if not self.ref:
+                self.ref = "W%sY%sE%s" % (str(uuid.uuid4()).split('-')[0], str(uuid.uuid4()).split('-')[1],
+                                          str(uuid.uuid4()).split('-')[2])
         return super(Wallet, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -28,7 +30,7 @@ class Blockchain(models.Model):
     id_chain = models.CharField(max_length=42)
     network = models.CharField(max_length=120, blank=False, null=False)
     name = models.CharField(max_length=120, blank=False, null=False)
-    symbol = models.CharField(max_length=4, blank=False, null=False)
+    symbol = models.CharField(max_length=4, blank=False, null=False, unique=True)
     currency_name = models.CharField(max_length=23, blank=False, null=False)
     url_rpc = models.URLField(blank=False, null=False)
     url_block_explorer = models.URLField(blank=False, null=False)

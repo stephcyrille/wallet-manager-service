@@ -1,3 +1,4 @@
+from decouple import config
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,9 +10,8 @@ class TokenTopUpOperationView(APIView):
     def post(self, request):
         serializer = BaseOpSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            # Get entity token objects
-            # TODO Set from wallet from configuration file or env file
-            from_token_wallet = get_entity_token_object(serializer.data.get("from_wallet"),
+            # An internal debit token wallet
+            from_token_wallet = get_entity_token_object(config("WALLET_DEBIT_2", default=''),
                                                         serializer.data.get("token_code"))
             to_token_wallet = get_entity_token_object(serializer.data.get("to_wallet"),
                                                       serializer.data.get("token_code"))
@@ -70,8 +70,8 @@ class TokenWithdrawOperationView(APIView):
             # Get from token wallet inside the request payload
             from_token_wallet = get_entity_token_object(serializer.data.get("from_wallet"),
                                                         serializer.data.get("token_code"))
-            # TODO Set the destination wallet from configuration file or env file
-            to_token_wallet = get_entity_token_object(serializer.data.get("to_wallet"),
+            # An internal credit token wallet
+            to_token_wallet = get_entity_token_object(config("WALLET_CREDIT_2", default=''),
                                                       serializer.data.get("token_code"))
             if "WITHDRAW" == serializer.data.get("ops_type"):
                 if to_token_wallet:
