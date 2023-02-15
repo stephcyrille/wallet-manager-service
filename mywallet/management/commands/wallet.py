@@ -40,6 +40,7 @@ def generate_wallet():
         "activated_date": timezone.now(),
     }
 
+    # TODO Activate all the wallet before use it (Maybe by creating an activate model method)
     try:
         Wallet.objects.create(**wallet_param_c1)
         Wallet.objects.create(**wallet_param_c2)
@@ -48,3 +49,5 @@ def generate_wallet():
         print("The 4th bases wallets was created successfully!!")
     except Exception as e:
         print("An error occurred: %s" % e.__str__())
+
+    # TODO Create entity token Wallet for each changed token

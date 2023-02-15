@@ -38,6 +38,7 @@ class ActivateTokenRequestSerializer(serializers.ModelSerializer):
 
 class EntityTokenSerializer(serializers.ModelSerializer):
     fiat_value = MoneyField(max_digits=14, decimal_places=2)
+    amount = MoneyField(max_digits=14, decimal_places=2)
 
     class Meta:
         model = EntityToken

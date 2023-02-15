@@ -51,19 +51,30 @@ Créer un fichier `.env` à la racine du projet et ajouter : __SECRET_KEY__, __W
 ### Migration des tables
 > `python manage.py makemigrations`<br/>
 > `python manage.py migrate`<br/>
+> 
+### Exécuter les tests <em>(10 tests)</em>
+> `python manage.py test`<br/>
 
 
 ### Création des modèles de base 
 > `python manage.py factory -d 'wallet'`<br/>
-> `python manage.py factory -d 'blockchain'`<br/>
 
 
-### Démarage du service 
+### Démarrage du service 
 > `python manage.py runserver`<br/>
 
 
 ### Routes URL
-> *http://localhost:8000/apis/v1/wallet/*... <br/>
-> *http://localhost:8000/apis/v1/operations/*... <br/>
+> *http://localhost:8000/apis/v1/wallet/create/ <br/>
+> *http://localhost:8000/apis/v1/wallet/detail/<user_id> <br/>
+> *http://localhost:8000/apis/v1/wallet/activate/ <br/>
+> *http://localhost:8000/apis/v1/wallet/activate/ <br/>
+> *http://localhost:8000/apis/v1/wallet/token/activate/ <br/>
+> *http://localhost:8000/apis/v1/operations/fiat/topup/" <br/>
+> *http://localhost:8000/apis/v1/operations/fiat/wire-transfer/" <br/>
+> *http://localhost:8000/apis/v1/operations/fiat/withdraw/" <br/>
+> *http://localhost:8000/apis/v1/operations/token/topup/" <br/>
+> *http://localhost:8000/apis/v1/operations/token/wire-transfer/" <br/>
+> *http://localhost:8000/apis/v1/operations/token/withdraw/" <br/>
 
-Tous est ready!
+Tous est ready !

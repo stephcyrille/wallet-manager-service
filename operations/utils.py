@@ -1,3 +1,4 @@
+from decimal import Decimal
 from mywallet.models import EntityToken, Wallet
 from .models import WalletOperation
 
@@ -10,9 +11,9 @@ def get_entity_token_object(ref, token_code):
 
 
 def move_token(origin, destination, amount):
-    if origin.amount >= amount:
-        origin.amount -= amount
-        destination.amount += amount
+    if origin.amount.amount >= Decimal.from_float(float(amount)):
+        origin.amount.amount -= Decimal.from_float(float(amount))
+        destination.amount.amount += Decimal.from_float(float(amount))
         origin.save()
         destination.save()
         return True
@@ -25,8 +26,8 @@ def save_operation(data):
         "ops_type": data.get("ops_type"),
         "from_wallet": data.get("from_wallet"),
         "to_wallet": data.get("to_wallet"),
-        "id_blockchain": data.get("id_blockchain"),
-        "token_code": data.get("token_code"),
+        "id_blockchain": data.get("id_blockchain") or " ",
+        "token_code": data.get("token_code") or " ",
         "amount": data.get("amount"),
         "to_external_wallet": data.get("to_external_wallet") or " ",
     }
@@ -42,9 +43,9 @@ def get_wallet_object(ref):
 
 
 def move_fiat(origin, destination, amount):
-    if origin.fiat_amount >= amount:
-        origin.fiat_amount -= amount
-        destination.fiat_amount += amount
+    if origin.fiat_amount.amount >= Decimal.from_float(float(amount)):
+        origin.fiat_amount.amount -= Decimal.from_float(float(amount))
+        destination.fiat_amount.amount += Decimal.from_float(float(amount))
         origin.save()
         destination.save()
         return True

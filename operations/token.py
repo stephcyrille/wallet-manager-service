@@ -11,8 +11,12 @@ class TokenTopUpOperationView(APIView):
         serializer = BaseOpSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             # An internal debit token wallet
-            from_token_wallet = get_entity_token_object(config("WALLET_DEBIT_2", default=''),
-                                                        serializer.data.get("token_code"))
+            if serializer.data.get("from_wallet"):
+                from_token_wallet = get_entity_token_object(serializer.data.get("from_wallet"),
+                                                            serializer.data.get("token_code"))
+            else:
+                from_token_wallet = get_entity_token_object(config("WALLET_DEBIT_2", default=''),
+                                                            serializer.data.get("token_code"))
             to_token_wallet = get_entity_token_object(serializer.data.get("to_wallet"),
                                                       serializer.data.get("token_code"))
 
@@ -71,8 +75,12 @@ class TokenWithdrawOperationView(APIView):
             from_token_wallet = get_entity_token_object(serializer.data.get("from_wallet"),
                                                         serializer.data.get("token_code"))
             # An internal credit token wallet
-            to_token_wallet = get_entity_token_object(config("WALLET_CREDIT_2", default=''),
-                                                      serializer.data.get("token_code"))
+            if serializer.data.get("to_wallet"):
+                to_token_wallet = get_entity_token_object(serializer.data.get("to_wallet"),
+                                                          serializer.data.get("token_code"))
+            else:
+                to_token_wallet = get_entity_token_object(config("WALLET_CREDIT_2", default=''),
+                                                          serializer.data.get("token_code"))
             if "WITHDRAW" == serializer.data.get("ops_type"):
                 if to_token_wallet:
                     # Move amount from origin entity token wallet to the destination entity token wallet

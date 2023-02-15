@@ -11,7 +11,10 @@ class FiatTopUpOperationView(APIView):
         serializer = BaseOpSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             # An internal debit wallet
-            from_wallet = get_wallet_object(config("WALLET_DEBIT_1", default=''))
+            if serializer.data.get("from_wallet"):
+                from_wallet = get_wallet_object(serializer.data.get("from_wallet"))
+            else:
+                from_wallet = get_wallet_object(config("WALLET_DEBIT_1", default=''))
             to_wallet = get_wallet_object(serializer.data.get("to_wallet"))
 
             if "FIAT_TOP_UP" == serializer.data.get("ops_type"):
@@ -63,8 +66,11 @@ class FiatWithdrawOperationView(APIView):
         if serializer.is_valid(raise_exception=True):
             # Get from token wallet inside the request payload
             from_wallet = get_wallet_object(serializer.data.get("from_wallet"))
-            # An internal credit wallet
-            to_wallet = get_wallet_object(config("WALLET_CREDIT_1", default=''))
+            if serializer.data.get("to_wallet"):
+                to_wallet = get_wallet_object(serializer.data.get("to_wallet"))
+            else:
+                # An internal credit wallet
+                to_wallet = get_wallet_object(config("WALLET_CREDIT_1", default=''))
             if "FIAT_WITHDRAW" == serializer.data.get("ops_type"):
                 if to_wallet:
                     # Move amount from origin entity wallet to the destination entity wallet

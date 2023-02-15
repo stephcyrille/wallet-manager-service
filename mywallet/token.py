@@ -28,20 +28,21 @@ class ActivateUserTokenView(APIView):
     def post(self, request):
         serializer = ActivateTokenRequestSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            token = self.get_token_object(serializer.data["token_ref"])
+            token = self.get_token_object(serializer.data.get("token_ref"))
             if token:
-                user_token = self.get_user_token_object(serializer.data["token_ref"], serializer.data["owner_ref"])
+                user_token = self.get_user_token_object(serializer.data.get("token_ref"),
+                                                        serializer.data.get("owner_ref"))
                 if not user_token:
                     # Check if it's a user Wallet
-                    user_wallet = self.get_user_wallet_object(serializer.data["wallet_ref"],
-                                                              serializer.data["owner_ref"])
+                    user_wallet = self.get_user_wallet_object(serializer.data.get("wallet_ref"),
+                                                              serializer.data.get("owner_ref"))
                     if user_wallet:
                         # Create a userToken instance
                         data = {
                             "token_symbol": token.symbol,
-                            "token_ref": serializer.data["token_ref"],
-                            "wallet_ref": serializer.data["wallet_ref"],
-                            "owner_ref": serializer.data["owner_ref"],
+                            "token_ref": serializer.data.get("token_ref"),
+                            "wallet_ref": serializer.data.get("wallet_ref"),
+                            "owner_ref": serializer.data.get("owner_ref"),
                             "is_active": True,
                             "activated_date": timezone.now(),
                         }

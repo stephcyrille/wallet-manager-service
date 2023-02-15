@@ -15,6 +15,8 @@ class CreateWalletView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class DetailWalletView(APIView):
     def get_object(self, owner_ref):
         try:
             return Wallet.objects.get(owner_ref=owner_ref)
@@ -44,7 +46,7 @@ class ActivateWalletView(APIView):
     def post(self, request):
         serializer = BaseWalletSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            wallet = self.get_object(serializer.data["owner_ref"])
+            wallet = self.get_object(serializer.data.get("owner_ref"))
             if wallet and not wallet.is_active:
                 wallet.activated_date = timezone.now()
                 wallet.is_active = True

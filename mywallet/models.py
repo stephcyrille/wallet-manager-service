@@ -48,7 +48,7 @@ class Blockchain(models.Model):
 class Token(models.Model):
     ref = models.CharField(max_length=42)
     name = models.CharField(max_length=23)
-    symbol = models.CharField(max_length=4)
+    symbol = models.CharField(max_length=4, unique=True)
     id_blockchain = models.CharField(max_length=42)
     unit_price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD')
 
@@ -67,7 +67,7 @@ class EntityToken(models.Model):
     token_ref = models.CharField(max_length=42, blank=False)
     wallet_ref = models.CharField(max_length=23, blank=False)
     owner_ref = models.CharField(max_length=36, blank=False)
-    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)  # 125.05
+    amount = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', default=0.0)
     fiat_value = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', default=0.0)
     is_active = models.BooleanField(default=False)
     activated_date = models.DateTimeField(blank=True, editable=False, null=True)  # Activate by a user process
