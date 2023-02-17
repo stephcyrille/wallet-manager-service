@@ -2,14 +2,20 @@ from decouple import config
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import BaseOpSerializer, WithdrawOpSerializer
+from .serializers import BaseOpSerializer, PaymentMethodSerializer, WithdrawOpSerializer
 from .utils import *
 
 
+# TODO Add a key to specify if buy offer, sale offer etc.
 class TokenTopUpOperationView(APIView):
     def post(self, request):
         serializer = BaseOpSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
+            # Check serializer for payment
+            p_serializer = PaymentMethodSerializer(data=request.data.get("payment"))
+            if not p_serializer.is_valid():
+                return Response(p_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
             # An internal debit token wallet
             if serializer.data.get("from_wallet"):
                 from_token_wallet = get_entity_token_object(serializer.data.get("from_wallet"),
@@ -23,8 +29,10 @@ class TokenTopUpOperationView(APIView):
             if "TOP_UP" == serializer.data.get("ops_type"):
                 if from_token_wallet:
                     # Move amount from origin entity token wallet to the destination entity token wallet
+                    # TODO Here will be the start point of our trading service
                     make_ops = move_token(from_token_wallet, to_token_wallet,
                                           serializer.data.get("amount"))
+                    # TODO Add a callback to listen when this operation is over et get the status, the proceed...
                     # If the move operation didn't passed well, return bad request error
                     if not make_ops:
                         return Response({"message": "The origin account hasn't enough amount"},
@@ -42,6 +50,11 @@ class TokenWireTransferOperationView(APIView):
     def post(self, request):
         serializer = BaseOpSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
+            # Check serializer for payment
+            p_serializer = PaymentMethodSerializer(data=request.data.get("payment"))
+            if not p_serializer.is_valid():
+                return Response(p_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
             # Get entity token objects
             # Get from wallet in the posted values
             from_token_wallet = get_entity_token_object(serializer.data.get("from_wallet"),
@@ -54,7 +67,9 @@ class TokenWireTransferOperationView(APIView):
                     # Move amount from origin entity token wallet to the destination entity token wallet
                     make_ops = move_token(from_token_wallet, to_token_wallet,
                                           serializer.data.get("amount"))
+                    # TODO Add a callback to listen when this operation is over et get the status, the proceed...
                     # If the move operation didn't passed well, return bad request error
+                    # TODO Here will be the start point of our trading service
                     if not make_ops:
                         return Response({"message": "The origin account hasn't enough amount"},
                                         status=status.HTTP_400_BAD_REQUEST)
@@ -71,6 +86,11 @@ class TokenWithdrawOperationView(APIView):
     def post(self, request):
         serializer = WithdrawOpSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
+            # Check serializer for payment
+            p_serializer = PaymentMethodSerializer(data=request.data.get("payment"))
+            if not p_serializer.is_valid():
+                return Response(p_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
             # Get from token wallet inside the request payload
             from_token_wallet = get_entity_token_object(serializer.data.get("from_wallet"),
                                                         serializer.data.get("token_code"))
@@ -84,8 +104,10 @@ class TokenWithdrawOperationView(APIView):
             if "WITHDRAW" == serializer.data.get("ops_type"):
                 if to_token_wallet:
                     # Move amount from origin entity token wallet to the destination entity token wallet
+                    # TODO Here will be the start point of our trading service
                     make_ops = move_token(from_token_wallet, to_token_wallet,
                                           serializer.data.get("amount"))
+                    # TODO Add a callback to listen when this operation is over et get the status, the proceed...
                     # If the move operation didn't passed well, return bad request error
                     if not make_ops:
                         return Response({"message": "The origin account hasn't enough amount"},

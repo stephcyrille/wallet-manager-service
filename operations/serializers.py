@@ -1,5 +1,42 @@
 from rest_framework import serializers
-from .models import WalletOperation
+from .models import PaymentMethod, WalletOperation
+
+
+class PaymentMethodSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=True)
+    operator = serializers.CharField(required=True, min_length=4, max_length=18)
+    reason = serializers.CharField(required=False)
+    card_number = serializers.CharField(required=False, max_length=16, min_length=16)
+    card_CVV = serializers.CharField(required=False, max_length=3, min_length=3)
+    card_owner = serializers.CharField(required=False)
+    phone_number = serializers.CharField(required=False)
+    card_expiry_date = serializers.CharField(required=False, max_length=5, min_length=5)
+
+    class Meta:
+        model = PaymentMethod
+        exclude = ["id"]
+
+    def validate(self, data):
+        """
+            From wallet and to wallet check the difference before validation
+        """
+        if "MOMO" == data['operator']:
+            if "phone_number" not in data:
+                raise serializers.ValidationError("The phone number field is mandatory")
+            if "MTNMOMO" == data['name'] and "reason" not in data:
+                raise serializers.ValidationError("The reason of the transaction is mandatory")
+        elif "BANK" == data['operator']:
+            if "card_number" not in data:
+                raise serializers.ValidationError("The card number field is mandatory")
+            elif "card_CVV" not in data:
+                raise serializers.ValidationError("The card CVV field is mandatory")
+            elif "card_owner" not in data:
+                raise serializers.ValidationError("The card owner field is mandatory")
+            elif "card_expiry_date" not in data:
+                raise serializers.ValidationError("The card expiry date field is mandatory")
+        else:
+            raise serializers.ValidationError("The operator field got a wrong key")
+        return data
 
 
 class BaseOpSerializer(serializers.ModelSerializer):
