@@ -6,7 +6,6 @@ from .serializers import BaseOpSerializer, PaymentMethodSerializer, WithdrawOpSe
 from .utils import *
 
 
-# TODO key to specify which external API we will use (if Momo or Bank card Payment) == Add Payment method
 class FiatTopUpOperationView(APIView):
     def post(self, request):
         serializer = BaseOpSerializer(data=request.data)
@@ -27,6 +26,7 @@ class FiatTopUpOperationView(APIView):
                 if from_wallet:
                     # Move amount from origin entity token wallet to the destination entity token wallet
                     # TODO Here will be the start point of our trading service
+                    # TODO We must include the payment informations in the body of the request
                     make_ops = move_fiat(from_wallet, to_wallet, serializer.data.get("amount"))
                     # TODO Add a callback to listen when this operation is over et get the status, the proceed...
                     # If the move operation didn't passed well, return bad request error
@@ -59,6 +59,7 @@ class FiatWireTransferOperationView(APIView):
                 if from_wallet:
                     # Move amount from origin entity token wallet to the destination entity token wallet
                     # TODO Here will be the start point of our trading service
+                    # TODO We must include the payment informations in the body of the request
                     make_ops = move_fiat(from_wallet, to_wallet, serializer.data.get("amount"))
                     # TODO Add a callback to listen when this operation is over et get the status, the proceed...
                     # If the move operation didn't passed well, return bad request error
@@ -94,6 +95,7 @@ class FiatWithdrawOperationView(APIView):
                 if to_wallet:
                     # Move amount from origin entity wallet to the destination entity wallet
                     # TODO Here will be the start point of our trading service
+                    # TODO We must include the payment informations in the body of the request
                     make_ops = move_fiat(from_wallet, to_wallet,
                                          serializer.data.get("amount"))
                     # TODO Add a callback to listen when this operation is over et get the status, the proceed...

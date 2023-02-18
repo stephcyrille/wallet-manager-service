@@ -1,4 +1,4 @@
-from mywallet.models import Blockchain
+from wallet.models import Blockchain
 
 
 def generate_blockchain():

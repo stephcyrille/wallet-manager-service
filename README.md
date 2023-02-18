@@ -1,4 +1,4 @@
-# User account (Wallet) micro service
+# YOK Core app micro service
 <hr />
 
 Cette application est un microservice en charge de la gestion des portefeuilles d'un utilisateur.
@@ -11,7 +11,7 @@ Cette application est un microservice en charge de la gestion des portefeuilles 
 
 ### Procédure d'Installation 
 1. Clonage du projet en local
->`git clone git@gitlab.com:cryptoechangeur/microservices/user-account.git`.
+>`git clone git@gitlab.com:cryptoechangeur/microservices/core.git`.
 
 2. Installation des dépendances
 > `cd user_account` <br/>

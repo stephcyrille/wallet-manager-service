@@ -1,6 +1,6 @@
 from decouple import config
 from django.utils import timezone
-from mywallet.models import Wallet
+from wallet.models import Wallet
 
 
 def generate_wallet():

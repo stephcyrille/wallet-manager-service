@@ -28,7 +28,7 @@ class PaymentMethod(models.Model):
     name = models.CharField(max_length=25, blank=False, choices=PAYMENT_NAME)
     reason = models.CharField(max_length=50, blank=True, null=True)
     card_number = models.CharField(max_length=16, blank=True, null=True)  # TODO we must encrypt the card number
-    card_CVV = models.CharField(max_length=3, blank=True, null=True) # TODO we must encrypt the card number
+    card_CVV = models.CharField(max_length=3, blank=True, null=True)  # TODO we must encrypt the card number
     card_owner = models.CharField(max_length=150, blank=True, null=True)
     phone_number = models.CharField(max_length=50, blank=True, null=True)
     card_expiry_date = models.CharField(max_length=5, blank=True, null=True)

@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import PaymentMethod, WalletOperation
 
 
+# TODO set this as simple serializer when we will implement some important features in the trading project
 class PaymentMethodSerializer(serializers.ModelSerializer):
     name = serializers.CharField(required=True)
     operator = serializers.CharField(required=True, min_length=4, max_length=18)
@@ -39,6 +40,7 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
         return data
 
 
+# TODO set this as simple serializer when we will implement some important features in the trading project
 class BaseOpSerializer(serializers.ModelSerializer):
     trx_ref = serializers.CharField(required=False)
     ops_type = serializers.CharField(required=True, min_length=4, max_length=18)
@@ -67,6 +69,7 @@ class BaseOpSerializer(serializers.ModelSerializer):
         return data
 
 
+# TODO set this as simple serializer when we will implement some important features in the trading project
 class WithdrawOpSerializer(serializers.ModelSerializer):
     trx_ref = serializers.CharField(required=False)
     ops_type = serializers.CharField(required=True, min_length=4, max_length=18)

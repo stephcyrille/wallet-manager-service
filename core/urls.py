@@ -1,4 +1,4 @@
-"""yokwallet URL Configuration
+"""CORE URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -23,6 +23,6 @@ schema_view = get_schema_view(title="Trading documentation")
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('apis/docs/', schema_view),
-    path('apis/v1/wallet/', include('mywallet.urls')),
+    path('apis/v1/wallet/', include('wallet.urls')),
     path('apis/v1/operations/', include('operations.urls')),
 ]

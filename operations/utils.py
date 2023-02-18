@@ -1,5 +1,5 @@
 from decimal import Decimal
-from mywallet.models import EntityToken, Wallet
+from wallet.models import EntityToken, Wallet
 from .models import WalletOperation
 
 
