@@ -86,11 +86,6 @@ class TokenWithdrawOperationView(APIView):
     def post(self, request):
         serializer = WithdrawOpSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            # Check serializer for payment
-            p_serializer = PaymentMethodSerializer(data=request.data.get("payment"))
-            if not p_serializer.is_valid():
-                return Response(p_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
             # Get from token wallet inside the request payload
             from_token_wallet = get_entity_token_object(serializer.data.get("from_wallet"),
                                                         serializer.data.get("token_code"))
@@ -103,6 +98,7 @@ class TokenWithdrawOperationView(APIView):
                                                           serializer.data.get("token_code"))
             if "WITHDRAW" == serializer.data.get("ops_type"):
                 if to_token_wallet:
+                    # TODO Get external wallet address in the request body
                     # Move amount from origin entity token wallet to the destination entity token wallet
                     # TODO Here will be the start point of our trading service
                     make_ops = move_token(from_token_wallet, to_token_wallet,

@@ -79,10 +79,11 @@ class FiatWithdrawOperationView(APIView):
     def post(self, request):
         serializer = WithdrawOpSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
+            # TODO Create a custom serializer for payment output
             # Check serializer for payment
-            p_serializer = PaymentMethodSerializer(data=request.data.get("payment"))
-            if not p_serializer.is_valid():
-                return Response(p_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            # p_serializer = PaymentMethodSerializer(data=request.data.get("payment"))
+            # if not p_serializer.is_valid():
+            #     return Response(p_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
             # Get from token wallet inside the request payload
             from_wallet = get_wallet_object(serializer.data.get("from_wallet"))

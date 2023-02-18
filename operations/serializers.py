@@ -1,10 +1,8 @@
 from rest_framework import serializers
-from .models import PaymentMethod, WalletOperation
 
 
-# TODO set this as simple serializer when we will implement some important features in the trading project
-class PaymentMethodSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(required=True)
+class PaymentMethodSerializer(serializers.Serializer):
+    name = serializers.CharField(required=True, min_length=2, max_length=50)
     operator = serializers.CharField(required=True, min_length=4, max_length=18)
     reason = serializers.CharField(required=False)
     card_number = serializers.CharField(required=False, max_length=16, min_length=16)
@@ -13,9 +11,11 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
     phone_number = serializers.CharField(required=False)
     card_expiry_date = serializers.CharField(required=False, max_length=5, min_length=5)
 
-    class Meta:
-        model = PaymentMethod
-        exclude = ["id"]
+    def create(self):
+        return ""
+
+    def update(self):
+        return ""
 
     def validate(self, data):
         """
@@ -40,8 +40,7 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
         return data
 
 
-# TODO set this as simple serializer when we will implement some important features in the trading project
-class BaseOpSerializer(serializers.ModelSerializer):
+class BaseOpSerializer(serializers.Serializer):
     trx_ref = serializers.CharField(required=False)
     ops_type = serializers.CharField(required=True, min_length=4, max_length=18)
     from_wallet = serializers.CharField(required=False, max_length=23, min_length=23)
@@ -50,9 +49,11 @@ class BaseOpSerializer(serializers.ModelSerializer):
     token_code = serializers.CharField(required=True, max_length=5, min_length=2)
     amount = serializers.DecimalField(required=True, max_digits=12, decimal_places=2)
 
-    class Meta:
-        model = WalletOperation
-        exclude = ["id", "to_external_wallet"]
+    def create(self):
+        return ""
+
+    def update(self):
+        return ""
 
     def validate(self, data):
         """
@@ -69,8 +70,7 @@ class BaseOpSerializer(serializers.ModelSerializer):
         return data
 
 
-# TODO set this as simple serializer when we will implement some important features in the trading project
-class WithdrawOpSerializer(serializers.ModelSerializer):
+class WithdrawOpSerializer(serializers.Serializer):
     trx_ref = serializers.CharField(required=False)
     ops_type = serializers.CharField(required=True, min_length=4, max_length=18)
     from_wallet = serializers.CharField(required=False, max_length=23, min_length=23)
@@ -80,9 +80,11 @@ class WithdrawOpSerializer(serializers.ModelSerializer):
     token_code = serializers.CharField(required=True, max_length=5, min_length=2)
     amount = serializers.DecimalField(required=True, max_digits=12, decimal_places=2)
 
-    class Meta:
-        model = WalletOperation
-        exclude = ["id"]
+    def create(self):
+        return ""
+
+    def update(self):
+        return ""
 
     def validate(self, data):
         if "WITHDRAW" == data['ops_type']:

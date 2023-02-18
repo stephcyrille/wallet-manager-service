@@ -10,28 +10,6 @@ OPS_CHOICES = (
     ("WITHDRAW", "Withdraw"),  # Remove from internal remove wallet to a client wallet
     ("FIAT_WITHDRAW", "Fiat Withdraw"),  # Remove from internal remove wallet to a client wallet
 )
-PAYMENT_NAME = (
-    ("MTNMOMO", "MTN Mobile money"),
-    ("OM", "Orange Money"),
-    ("MASTERCARD", "Mastercard"),
-    ("VISA", "Visa Card"),
-    ("PAYPAL", "Paypal"),
-)
-OPERATOR_TYPES = (
-    ("BANK", "Bank"),
-    ("MOMO", "Mobile money"),
-)
-
-
-class PaymentMethod(models.Model):
-    operator = models.CharField(max_length=25, choices=OPERATOR_TYPES, blank=False)
-    name = models.CharField(max_length=25, blank=False, choices=PAYMENT_NAME)
-    reason = models.CharField(max_length=50, blank=True, null=True)
-    card_number = models.CharField(max_length=16, blank=True, null=True)  # TODO we must encrypt the card number
-    card_CVV = models.CharField(max_length=3, blank=True, null=True)  # TODO we must encrypt the card number
-    card_owner = models.CharField(max_length=150, blank=True, null=True)
-    phone_number = models.CharField(max_length=50, blank=True, null=True)
-    card_expiry_date = models.CharField(max_length=5, blank=True, null=True)
 
 
 class WalletOperation(models.Model):
