@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from .token import TokenTopUpOperationView, TokenWireTransferOperationView, TokenWithdrawOperationView
-from .fiat import FiatTopUpOperationView, FiatWireTransferOperationView, FiatWithdrawOperationView
+from operations.apis.token import TokenTopUpOperationView, TokenWireTransferOperationView, TokenWithdrawOperationView
+from operations.apis.fiat import FiatTopUpOperationView, FiatWireTransferOperationView, FiatWithdrawOperationView
 
 urlpatterns = [
     # Token operations

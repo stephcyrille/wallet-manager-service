@@ -2,8 +2,10 @@ from decouple import config
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import BaseOpSerializer, PaymentMethodSerializer, WithdrawOpSerializer
-from .utils import *
+from operations.utilities.ops_manager import save
+from operations.serializers import BaseOpSerializer, PaymentMethodSerializer, WithdrawOpSerializer
+from wallet.utilities.account_manager import move_fiat
+from wallet.utilities.cursor import get_wallet_object
 
 
 class FiatTopUpOperationView(APIView):
@@ -34,7 +36,7 @@ class FiatTopUpOperationView(APIView):
                         return Response({"message": "The origin account hasn't enough amount"},
                                         status=status.HTTP_400_BAD_REQUEST)
 
-                    operation = save_operation(serializer.data)
+                    operation = save(serializer.data)
                     response_serializer = BaseOpSerializer(operation)
                     return Response(response_serializer.data, status=status.HTTP_201_CREATED)
                 return Response({"message": "You need to create a topUp Wallet first"},
@@ -67,7 +69,7 @@ class FiatWireTransferOperationView(APIView):
                         return Response({"message": "The origin account hasn't enough amount"},
                                         status=status.HTTP_400_BAD_REQUEST)
 
-                    operation = save_operation(serializer.data)
+                    operation = save(serializer.data)
                     response_serializer = BaseOpSerializer(operation)
                     return Response(response_serializer.data, status=status.HTTP_201_CREATED)
                 return Response({"message": "You need to create a topUp Wallet first"},
@@ -105,7 +107,7 @@ class FiatWithdrawOperationView(APIView):
                         return Response({"message": "The origin account hasn't enough amount"},
                                         status=status.HTTP_400_BAD_REQUEST)
                     # TODO create a task for an external API for withdrawal (we need to add mobile money or bank API)
-                    operation = save_operation(serializer.data)
+                    operation = save(serializer.data)
                     response_serializer = WithdrawOpSerializer(operation)
                     return Response(response_serializer.data, status=status.HTTP_201_CREATED)
                 return Response({"message": "You need to create a Withdraw Wallet first"},
