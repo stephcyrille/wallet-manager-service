@@ -107,7 +107,7 @@ class FiatWithdrawOperationView(APIView):
                     # TODO call the payment external API here depending on the payment operator
                     # Move amount from origin entity wallet to the destination entity wallet
                     make_ops = move_fiat(from_wallet, to_wallet, amount)
-                    # TODO Add a callback to listen when this operation is over et get the status, the proceed...
+                    # TODO Add a callback to listen when this operation is over et get the status, then proceed...
                     # If the move operation didn't passed well, return bad request error
                     if not make_ops:
                         return Response({"message": "The origin account hasn't enough amount"},

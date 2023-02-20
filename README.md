@@ -11,10 +11,10 @@ Cette application est un microservice en charge de la gestion des portefeuilles 
 
 ### Procédure d'Installation 
 1. Clonage du projet en local
->`git clone git@gitlab.com:cryptoechangeur/microservices/wallet-manager.git`.
+>`git clone git@gitlab.com:cryptoechangeur/microservices/wallet_manager.git`.
 
 2. Installation des dépendances
-> `cd user_account` <br/>
+> `cd wallet_manager` <br/>
 > `pip install -r requirements.txt` <br/>
 
 3. Configuration des variables d\'environement<br/>
