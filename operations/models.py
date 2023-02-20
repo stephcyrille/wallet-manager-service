@@ -10,6 +10,36 @@ OPS_CHOICES = (
     ("WITHDRAW", "Withdraw"),  # Remove from internal remove wallet to a client wallet
     ("FIAT_WITHDRAW", "Fiat Withdraw"),  # Remove from internal remove wallet to a client wallet
 )
+OPS_STATUS = (
+    ("DRAFT", "Draft"),
+    ("PENDING", "Pending"),
+    ("SUCCEED", "Succeed"),
+    ("FAILED", "Failed"),
+    ("CANCELED", "Canceled"),
+)
+# PAYMENT_NAME = (
+#     ("MTNMOMO", "MTN Mobile money"),
+#     ("OM", "Orange Money"),
+#     ("MASTERCARD", "Mastercard"),
+#     ("VISA", "Visa Card"),
+#     ("PAYPAL", "Paypal"),
+# )
+# OPERATOR_TYPES = (
+#     ("BANK", "Bank"),
+#     ("MOMO", "Mobile money"),
+# )
+#
+#
+# # Must be in the user service
+# class PaymentMethod(models.Model):
+#     operator = models.CharField(max_length=25, choices=OPERATOR_TYPES, blank=False)
+#     name = models.CharField(max_length=25, blank=False, choices=PAYMENT_NAME)
+#     reason = models.CharField(max_length=50, blank=True, null=True)
+#     card_number = models.CharField(max_length=16, blank=True, null=True)  # TODO we must encrypt the card number
+#     card_CVV = models.CharField(max_length=3, blank=True, null=True)  # TODO we must encrypt the card number
+#     card_owner = models.CharField(max_length=150, blank=True, null=True)
+#     phone_number = models.CharField(max_length=50, blank=True, null=True)
+#     card_expiry_date = models.CharField(max_length=5, blank=True, null=True)
 
 
 class WalletOperation(models.Model):
@@ -24,6 +54,8 @@ class WalletOperation(models.Model):
     token_code = models.CharField(max_length=5, blank=False)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     created_date = models.DateTimeField(blank=True, editable=False, default=timezone.now)
+    status = models.CharField(max_length=10, choices=OPS_STATUS, default="DRAFT")
+    details = models.TextField(blank=True)
 
     def save(self, *args, **kwargs):
         """ On save """

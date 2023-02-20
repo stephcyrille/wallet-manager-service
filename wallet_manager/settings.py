@@ -41,7 +41,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'core.urls'
+ROOT_URLCONF = 'wallet_manager.urls'
 
 TEMPLATES = [
     {
@@ -59,7 +59,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+WSGI_APPLICATION = 'wallet_manager.wsgi.application'
 
 
 # Database

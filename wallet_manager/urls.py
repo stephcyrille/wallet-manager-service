@@ -18,7 +18,7 @@ from django.urls import path, include
 from rest_framework.schemas import get_schema_view
 
 
-schema_view = get_schema_view(title="Trading documentation")
+schema_view = get_schema_view(title="Wallet manager documentation")
 
 urlpatterns = [
     path('admin/', admin.site.urls),

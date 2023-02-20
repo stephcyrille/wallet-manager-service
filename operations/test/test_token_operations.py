@@ -143,12 +143,12 @@ class TokenOperationApiTest(APITestCase):
             "id_blockchain": "CHAIN-bd91a052-2e9f-43af-95e8-73ca2e494d2b",
             "token_code": "BTC",
             "amount": 125.00,
-            "payment": {
-                "operator": "MOMO",
-                "name": "MTNMOMO",
-                "phone_number": "0640509688",
-                "reason": "ID-TRX1205",
-            }
+            # "payment": {
+            #     "operator": "MOMO",
+            #     "name": "MTNMOMO",
+            #     "phone_number": "0640509688",
+            #     "reason": "ID-TRX1205",
+            # }
         }
 
     def test_token_topup(self):

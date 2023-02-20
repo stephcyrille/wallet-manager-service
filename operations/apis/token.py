@@ -39,10 +39,11 @@ class TokenTopUpOperationView(APIView):
                     if not make_ops:
                         return Response({"message": "The origin account hasn't enough amount"},
                                         status=status.HTTP_400_BAD_REQUEST)
-
-                    operation = save(serializer.data)
-                    response_serializer = BaseOpSerializer(operation)
-                    return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+                    response = {
+                        "message": "Success",
+                        "operation": "TOP_UP"
+                    }
+                    return Response(response, status=status.HTTP_201_CREATED)
                 return Response({"message": "You need to create a topUp Wallet first"},
                                 status=status.HTTP_404_NOT_FOUND)
             return Response({"message": "Expected a Top up operation"}, status=status.HTTP_400_BAD_REQUEST)
@@ -75,10 +76,11 @@ class TokenWireTransferOperationView(APIView):
                     if not make_ops:
                         return Response({"message": "The origin account hasn't enough amount"},
                                         status=status.HTTP_400_BAD_REQUEST)
-
-                    operation = save(serializer.data)
-                    response_serializer = BaseOpSerializer(operation)
-                    return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+                    response = {
+                        "message": "Success",
+                        "operation": "WIRE_TRANSFER"
+                    }
+                    return Response(response, status=status.HTTP_201_CREATED)
                 return Response({"message": "You need to create a topUp Wallet first"},
                                 status=status.HTTP_404_NOT_FOUND)
             return Response({"message": "Expected a transfer operation"}, status=status.HTTP_400_BAD_REQUEST)
@@ -111,9 +113,11 @@ class TokenWithdrawOperationView(APIView):
                         return Response({"message": "The origin account hasn't enough amount"},
                                         status=status.HTTP_400_BAD_REQUEST)
                     # TODO create a task for an external API withdrawal (we need to add blockchain operation here)
-                    operation = save(serializer.data)
-                    response_serializer = WithdrawOpSerializer(operation)
-                    return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+                    response = {
+                        "message": "Success",
+                        "operation": "WITHDRAW"
+                    }
+                    return Response(response, status=status.HTTP_201_CREATED)
                 return Response({"message": "You need to create a Withdraw Wallet first"},
                                 status=status.HTTP_404_NOT_FOUND)
             return Response({"message": "Expected a Withdraw operation"}, status=status.HTTP_400_BAD_REQUEST)
