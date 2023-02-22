@@ -23,7 +23,8 @@ before_script:
 test:
   script:
     - python3 manage.py test
-  migrations:
+
+  prepare:
     - python3 manage.py makemigrations
     - python3 manage.py migrate
     - rm -v .env
