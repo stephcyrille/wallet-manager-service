@@ -33,19 +33,20 @@ Créer un fichier `.env` à la racine du projet et ajouter : __SECRET_KEY__, __W
 - Le __WALLET_CLIENT_DEBIT_CODE__ Le code Client de wallet de débit
 
 > *<u>Exemple de fichier __.env__</u> :* <br/>
-> DEBUG=True <br/>
-> SECRET_KEY = 'bfQspVSh90eG3yrQo8lBZjKLfkDCsjwXvA9Gmc12cUo' <br/>
-> WALLET_CREDIT_1 = 'xxxxxxxxxxxxx' <br/>
-> WALLET_CREDIT_1_USER = 'xxxxxxxxxxxxx' <br/>
-> WALLET_CREDIT_2 = 'xxxxxxxxxxxxx' <br/>
-> WALLET_CREDIT_2_USER = 'xxxxxxxxxxxxx' <br/>
-> WALLET_CLIENT_CREDIT_CODE = 0000 <br/>
-> WALLET_DEBIT_1 = 'xxxxxxxxxxxxx' <br/>
-> WALLET_DEBIT_1_USER = 'xxxxxxxxxxxxx' <br/>
-> WALLET_DEBIT_2 = 'xxxxxxxxxxxxx' <br/>
-> WALLET_DEBIT_2_USER = 'xxxxxxxxxxxxx' <br/>
-> WALLET_CLIENT_DEBIT_CODE = 0000 <br/>
-
+```python
+DEBUG=True 
+SECRET_KEY = 'bfQspVSh90eG3yrQo8lBZjKLfkDCsjwXvA9Gmc12cUo' 
+WALLET_CREDIT_1 = 'xxxxxxxxxxxxx' 
+WALLET_CREDIT_1_USER = 'xxxxxxxxxxxxx' 
+WALLET_CREDIT_2 = 'xxxxxxxxxxxxx' 
+WALLET_CREDIT_2_USER = 'xxxxxxxxxxxxx' 
+WALLET_CLIENT_CREDIT_CODE = 0000 
+WALLET_DEBIT_1 = 'xxxxxxxxxxxxx' 
+WALLET_DEBIT_1_USER = 'xxxxxxxxxxxxx' 
+WALLET_DEBIT_2 = 'xxxxxxxxxxxxx' 
+WALLET_DEBIT_2_USER = 'xxxxxxxxxxxxx' 
+WALLET_CLIENT_DEBIT_CODE = 0000 
+```
 
 
 ### Migration des tables

@@ -1,0 +1,29 @@
+image: python:latest
+
+cache:
+  paths:
+    - ~/.cache/pip/
+
+before_script:
+  - python -V
+  - pip install -r requirements.txt
+  - touch .env
+  - echo "WALLET_CREDIT_1='W5b7304aaYc877E4002'" >> .env
+  - echo "WALLET_CREDIT_1_USER='f6c87937-af57-4ab6-8c39-4fcb7d6d5af3'" >> .env
+  - echo "WALLET_CREDIT_2='W6834da75Ycfc3E4b32'" >> .env
+  - echo "WALLET_CREDIT_2_USER='aa10e65e-59cf-4ef1-921e-8be2457bc634''" >> .env
+  - echo "WALLET_CLIENT_CREDIT_CODE=9901" >> .env
+  - echo "WALLET_DEBIT_1='W363cdb03Y6449E4790'" >> .env
+  - echo "WALLET_DEBIT_1_USER='b30a3f46-26d2-4e04-abb8-7acd79913959'" >> .env
+  - echo "WALLET_DEBIT_2='Wcaaeb2ddY9811E4065'" >> .env
+  - echo "WALLET_DEBIT_2_USER='e0788515-68ed-427c-88fa-29a2bf3c5b7b'" >> .env
+  - echo "WALLET_CLIENT_DEBIT_CODE=9902" >> .env
+  - cat .env
+
+test:
+  script:
+    - python3 manage.py test
+  migrations:
+    - python3 manage.py makemigrations
+    - python3 manage.py migrate
+    - rm -v .env
