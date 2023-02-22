@@ -1,5 +1,9 @@
 image: python:latest
 
+stages:
+ - test
+ - prepare
+
 cache:
   paths:
     - ~/.cache/pip/
@@ -20,11 +24,21 @@ before_script:
   - echo "WALLET_CLIENT_DEBIT_CODE=9902" >> .env
   - cat .env
 
-test:
+pre-deploy:
+  stage: test
+  environment: test
   script:
     - python3 manage.py test
+  only:
+    - main
 
-  prepare:
+deploy:
+  stage: prepare
+  environment: test
+  script:
     - python3 manage.py makemigrations
     - python3 manage.py migrate
     - rm -v .env
+  only:
+    - main
+
